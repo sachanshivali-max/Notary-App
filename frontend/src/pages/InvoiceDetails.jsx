@@ -58,7 +58,7 @@ const InvoiceDetails = () => {
             {/* Premium Gated Logo Feature */}
             {user?.role === 'premium' && user?.logoUrl ? (
               <img 
-                src={`http://localhost:5000${user.logoUrl}`} 
+                src={user.logoUrl.startsWith('data:') ? user.logoUrl : (user.logoUrl.startsWith('/') ? `http://localhost:5000${user.logoUrl}` : user.logoUrl)}
                 alt="Company Logo" 
                 className="h-16 object-contain mb-4"
                 crossOrigin="anonymous"

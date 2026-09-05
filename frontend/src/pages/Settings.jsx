@@ -76,7 +76,7 @@ const Settings = () => {
             </div>
             {user?.logoUrl && (
               <img 
-                src={`http://localhost:5000${user.logoUrl}`} 
+                src={user.logoUrl.startsWith('data:') ? user.logoUrl : (user.logoUrl.startsWith('/') ? `http://localhost:5000${user.logoUrl}` : user.logoUrl)}
                 alt="Current Logo" 
                 className="h-12 object-contain bg-white p-1 rounded border border-amber-200"
                 crossOrigin="anonymous"
