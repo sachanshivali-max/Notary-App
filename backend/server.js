@@ -2,8 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const path = require('path');
-const fs = require('fs');
+
 
 const authRoutes = require('./routes/auth');
 const clientRoutes = require('./routes/clients');
@@ -22,11 +21,17 @@ mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error('MongoDB connection error:', err));
 
-// Routes
+// Routes – registered at both /api/* (local dev) and /* (Vercel strips the /api prefix)
 app.use('/api/auth', authRoutes);
 app.use('/api/clients', clientRoutes);
 app.use('/api/invoices', invoiceRoutes);
 app.use('/api/user', userRoutes);
+
+// Vercel serverless strips the /api path prefix, so also register without it
+app.use('/auth', authRoutes);
+app.use('/clients', clientRoutes);
+app.use('/invoices', invoiceRoutes);
+app.use('/user', userRoutes);
 
 if (process.env.NODE_ENV !== 'production') {
   const PORT = process.env.PORT || 5000;
